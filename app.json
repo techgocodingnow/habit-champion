@@ -9,7 +9,8 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.gocodingnow.habitchampion"
     },
     "android": {
       "adaptiveIcon": {
@@ -26,6 +27,7 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
+      "react-native-bottom-tabs",
       "expo-router",
       [
         "expo-splash-screen",
@@ -38,7 +40,33 @@
             "backgroundColor": "#000000"
           }
         }
-      ]
+      ],
+      "expo-sqlite",
+      [
+        "expo-localization",
+        {
+          "supportedLocales": {
+            "ios": ["en", "ja", "es", "fr", "de", "it", "pt", "ru", "zh", "vi"],
+            "android": [
+              "en",
+              "ja",
+              "es",
+              "fr",
+              "de",
+              "it",
+              "pt",
+              "ru",
+              "zh",
+              "vi"
+            ]
+          }
+        }
+      ],
+      "expo-mail-composer",
+      "expo-audio",
+      "expo-tracking-transparency",
+      "expo-video",
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true,

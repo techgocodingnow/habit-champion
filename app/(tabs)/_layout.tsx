@@ -1,33 +1,39 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
-
-import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import { Tabs } from "@/src/components/ui/bottom-tabs";
+import { router } from "expo-router";
+import { useTranslation } from "react-i18next";
+import { Button, View } from "react-native";
+import { XStack } from "tamagui";
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
+  const { t } = useTranslation();
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-      }}>
+    <Tabs renderCustomTabBar={() => <View style={{ width: "90%" }} />}>
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: t("bottom_tab_1"),
+          tabBarIcon: () => ({ sfSymbol: "checkmark.circle" }),
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="challenges"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: t("bottom_tab_2"),
+          tabBarIcon: () => ({ sfSymbol: "list.bullet" }),
+        }}
+      />
+      <Tabs.Screen
+        name="stats"
+        options={{
+          title: t("bottom_tab_4"),
+          tabBarIcon: () => ({ sfSymbol: "chart.bar" }),
+        }}
+      />
+      <Tabs.Screen
+        name="ranking"
+        options={{
+          title: t("bottom_tab_3"),
+          tabBarIcon: () => ({ sfSymbol: "chart.line.uptrend.xyaxis" }),
         }}
       />
     </Tabs>
