@@ -1,8 +1,6 @@
-import { s } from "@gocodingnow/rn-size-matters";
-import { useStyle } from "@tamagui/core";
-import { XStack } from "@tamagui/stacks";
-import { useMemo, useRef } from "react";
-import { StyleSheet } from "react-native";
+import { useStyle, XStack, Stack } from "tamagui";
+import { useRef } from "react";
+import { I18nManager, StyleSheet } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
 import ReanimatedSwipeable, {
   type SwipeableMethods,
@@ -14,16 +12,16 @@ import Animated, {
 } from "react-native-reanimated";
 
 import { Typography } from "./ui/typography";
+import Icon from "@expo/vector-icons/MaterialIcons";
+const AnimatedIcon = Animated.createAnimatedComponent(Icon);
 
 const RightAction = (props: {
-  text: string;
-  color: string;
   x: number;
   progress: SharedValue<number>;
   onPress: () => void;
   close: () => void;
 }) => {
-  const { text, color, x, progress, onPress, close } = props;
+  const { x, progress, onPress, close } = props;
   const styleAnimation = useAnimatedStyle(() => {
     return {
       transform: [
@@ -39,14 +37,29 @@ const RightAction = (props: {
   };
 
   return (
-    <Animated.View style={[{ flex: 1 }, styleAnimation]}>
-      <RectButton
-        style={[styles.rightAction, { backgroundColor: color }]}
-        onPress={pressHandler}
+    <Stack width={128}>
+      <Animated.View
+        style={[{ flex: 1, flexDirection: "row" }, styleAnimation]}
       >
-        <Typography style={styles.actionText} value={text} />
-      </RectButton>
-    </Animated.View>
+        <RectButton
+          style={[
+            styles.rightAction,
+            {
+              backgroundColor: "#dd2c00",
+            },
+          ]}
+          onPress={pressHandler}
+        >
+          <Typography style={styles.actionText} tx="delete" color="white" />
+        </RectButton>
+        <RectButton
+          style={[styles.rightAction, { backgroundColor: "#ffab00" }]}
+          onPress={pressHandler}
+        >
+          <Typography style={styles.actionText} tx="undo" color="white" />
+        </RectButton>
+      </Animated.View>
+    </Stack>
   );
 };
 
@@ -76,60 +89,76 @@ export const HabitCard = ({ data }: HistoryItemProps) => {
     progress: SharedValue<number>,
     _dragAnimatedValue: SharedValue<number>
   ) => (
-    <XStack width={128} justify="flex-end">
-      <RightAction
-        text="Flag"
-        color="#ffab00"
-        x={128}
-        progress={progress}
-        onPress={_onToggleBookmark}
-        close={close}
-      />
-      <RightAction
-        text="Delete"
-        color="#dd2c00"
-        x={64}
-        progress={progress}
-        onPress={_onDelete}
-        close={close}
-      />
-    </XStack>
+    <RightAction
+      x={128}
+      progress={progress}
+      onPress={_onDelete}
+      close={close}
+    />
   );
 
   const containerStyle = useStyle(
     {
-      backgroundColor: "$card_bg",
       height: 60,
-      px: "$list_item_horizontal",
-      jc: "center",
     },
     {
       resolveValues: "value",
     }
   );
-  return (
-    <ReanimatedSwipeable
-      ref={ref}
-      containerStyle={containerStyle}
-      friction={2}
-      enableTrackpadTwoFingerGesture
-      rightThreshold={40}
-      renderRightActions={renderRightActions}
-    >
-      <XStack
-        bg="$card_bg"
-        rounded="$card"
-        px="$card_horizontal"
-        py="$card_vertical"
-        mb="$gap_vertical"
-        mx="$container"
-        items="center"
-        gap="$gap_list_item"
-        onPress={_onPress}
+
+  const renderLeftActions = (
+    progress: SharedValue<number>,
+    dragX: SharedValue<number>
+  ) => {
+    const scale = interpolate(dragX.value, [0, 60], [0, 1], "clamp");
+    return (
+      <RectButton
+        style={{
+          flex: 1,
+          backgroundColor: "#388e3c",
+          justifyContent: "flex-end",
+          alignItems: "center",
+          flexDirection: I18nManager.isRTL ? "row" : "row-reverse",
+        }}
+        onPress={close}
       >
-        <Typography value={`Habit Card ${data.id}`} />
-      </XStack>
-    </ReanimatedSwipeable>
+        <AnimatedIcon
+          name="archive"
+          color="#fff"
+          style={[
+            {
+              marginHorizontal: 10,
+            },
+            { transform: [{ scale }] },
+          ]}
+        />
+      </RectButton>
+    );
+  };
+  return (
+    <Stack mb={16}>
+      <ReanimatedSwipeable
+        ref={ref}
+        containerStyle={containerStyle}
+        friction={2}
+        enableTrackpadTwoFingerGesture
+        rightThreshold={40}
+        renderRightActions={renderRightActions}
+        renderLeftActions={renderLeftActions}
+      >
+        <XStack
+          bg="$card_bg"
+          rounded="$card"
+          px="$card_horizontal"
+          height={60}
+          items="center"
+          gap="$gap_list_item"
+          onPress={_onPress}
+        >
+          <Typography value={`Habit Card ${data.id}`} />
+        </XStack>
+      </ReanimatedSwipeable>
+    </Stack>
   );
 };
 
@@ -142,7 +171,6 @@ const styles = StyleSheet.create({
   },
   rightAction: {
     alignItems: "center",
-    flex: 1,
     justifyContent: "center",
   },
   separator: {

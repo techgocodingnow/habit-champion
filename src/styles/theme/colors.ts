@@ -92,7 +92,7 @@ export const themeBrandColors = {
 
   background: "#141A19",
 
-  card_bg: "#1C2222",
+  card_bg: "#C6DEDEFF",
 
   screen_bg_primary: "#141A19",
   screen_bg_secondary: "#172122",
@@ -120,8 +120,8 @@ export const themeBrandColors = {
   tag_text_active: "white",
   tag_text_inactive: "black",
 
-  header_title: "#b59022",
-  header_bg: "#141A19",
+  header_title: "black",
+  header_bg: "white",
 
   bottomsheet_handle: "#9D9D9D",
   bottomsheet_header_bg: background,

@@ -10,7 +10,7 @@ import type { IconName, IconProps } from "./icon";
 import { Icon } from "./icon";
 import type { TypographyProps } from "./typography";
 import { Typography } from "./typography";
-
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 export type HeaderProps = {
   title?: string;
   titleTx?: string;
@@ -18,7 +18,7 @@ export type HeaderProps = {
   onLeftPress?: () => void;
   onRightPress?: () => void;
   iconLeft?: IconName | boolean | null;
-  iconRight?: IconName | boolean;
+  iconRight?: string | boolean;
   leftComponent?: ReactNode;
   centerComponent?: ReactNode;
   rightComponent?: ReactNode;
@@ -26,8 +26,8 @@ export type HeaderProps = {
   safeAreaTop?: boolean;
   leftProps?: StackProps;
   rightProps?: StackProps;
-  iconLeftProps?: IconProps;
-  iconRightProps?: IconProps;
+  iconLeftProps?: Omit<IconProps, "name">;
+  iconRightProps?: Omit<IconProps, "name">;
 } & XStackProps;
 
 export const Header = ({
@@ -102,7 +102,7 @@ export const Header = ({
             tx={titleTx}
             txOptions={titleTxOptions}
             numberOfLines={1}
-            textAlign="center"
+            text="center"
             fontFamilyVariant="primary"
             color="$header_title"
             maxFontSizeScale={1.3}

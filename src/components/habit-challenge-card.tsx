@@ -13,7 +13,7 @@ export const HabitChallengeCard = () => {
       mx="$container"
     >
       <Typography value="Habit Challenge" />
-      <ButtonPrimary tx="join_now" />
+      <ButtonPrimary tx="accept" self="flex-start" />
     </Stack>
   );
 };

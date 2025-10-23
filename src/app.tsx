@@ -1,34 +1,36 @@
 import {
   Inter_400Regular,
-  Inter_900Black,
+  Inter_500Medium,
+  Inter_600SemiBold,
+  Inter_700Bold,
   useFonts,
 } from "@expo-google-fonts/inter";
 import { Stack } from "expo-router";
 import { useEffect } from "react";
+import * as SplashScreen from "expo-splash-screen";
 
 function App() {
-  const [loaded] = useFonts({
+  const [loaded, error] = useFonts({
     Inter_400Regular,
-    Inter_900Black,
+    Inter_500Medium,
+    Inter_600SemiBold,
+    Inter_700Bold,
   });
 
   useEffect(() => {
     if (loaded) {
-      // can hide splash screen here
+      SplashScreen.hideAsync();
     }
   }, [loaded]);
 
-  if (!loaded) {
+  if (!loaded && !error) {
     return null;
   }
 
   return (
     <Stack>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen
-        name="modal"
-        options={{ presentation: "modal", title: "Modal" }}
-      />
+      <Stack.Screen name="create-habit" options={{ presentation: "modal" }} />
     </Stack>
   );
 }

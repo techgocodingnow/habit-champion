@@ -1,11 +1,7 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 import { type ElementType, forwardRef, useMemo } from "react";
 import type { OpaqueColorValue, ViewStyle } from "react-native";
-import type {
-  GetProps,
-  GetThemeValueForKey,
-  TamaguiElement,
-  Tokens,
-} from "tamagui";
+import type { GetProps, GetThemeValueForKey, TamaguiElement } from "tamagui";
 import { Stack, styled } from "tamagui";
 
 import icons from "./icons";
@@ -33,8 +29,18 @@ type Props = {
 };
 
 const IconSvg = forwardRef<TamaguiElement, Props>((props, ref) => {
-  const { name, type, style, width, height, color, fill, stroke, ...rest } =
-    props;
+  const {
+    name,
+    type,
+    style,
+    width,
+    height,
+    color,
+    fill,
+    stroke,
+    size,
+    ...rest
+  } = props;
   const IconComponent: ElementType = useMemo(() => {
     const IconSVG = icons?.[name];
     if (name && IconSVG) {
@@ -42,21 +48,22 @@ const IconSvg = forwardRef<TamaguiElement, Props>((props, ref) => {
     }
     switch (type) {
       case "MaterialCommunityIcons": {
-        return require("react-native-vector-icons/MaterialCommunityIcons")
-          .default;
+        return require("@expo/vector-icons/MaterialCommunityIcons").default;
+      }
+      case "MaterialIcons": {
+        return require("@expo/vector-icons/MaterialIcons").default;
+      }
+      case "Ionicons": {
+        return require("@expo/vector-icons/Ionicons").default;
+      }
+      case "FontAwesome": {
+        return require("@expo/vector-icons/FontAwesome").default;
       }
       default: {
         return Stack;
       }
     }
   }, [name, type]);
-
-  const size = useMemo(() => {
-    if (width === height) {
-      return width;
-    }
-    return undefined;
-  }, [width, height]);
 
   return (
     <Stack ref={ref} {...rest}>
@@ -75,28 +82,7 @@ IconSvg.displayName = "IconSvg";
 
 export const Icon = styled(
   IconSvg,
-  {
-    variants: {
-      size: {
-        ":number": (size: number, { tokens }: { tokens: Tokens }) => {
-          return {
-            width:
-              tokens?.size?.[size as unknown as keyof typeof tokens.size] ??
-              size,
-            height:
-              tokens?.size?.[size as unknown as keyof typeof tokens.size] ??
-              size,
-          };
-        },
-        ":string": (size: string, { tokens }: { tokens: Tokens }) => {
-          return {
-            width: tokens?.size?.[size as keyof typeof tokens.size] ?? size,
-            height: tokens?.size?.[size as keyof typeof tokens.size] ?? size,
-          };
-        },
-      } as const,
-    },
-  },
+  {},
   {
     accept: {
       fill: "color",

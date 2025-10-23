@@ -6,5 +6,10 @@
   "bottom_tab_1": "Today",
   "bottom_tab_2": "Challenges",
   "bottom_tab_3": "Ranking",
-  "bottom_tab_4": "Stats"
+  "bottom_tab_4": "Stats",
+  "delete": "Delete",
+  "undo": "Undo",
+  "done": "Done",
+  "accept": "Accept",
+  "withdraw": "Withdraw"
 }
