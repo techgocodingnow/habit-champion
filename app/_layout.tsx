@@ -6,7 +6,6 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
-import "react-native-reanimated";
 import ToastManager from "toastify-react-native";
 import { tamaguiConfig } from "../tamagui.config";
 
@@ -23,6 +22,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import { useColorScheme } from "react-native";
 import { TamaguiProvider } from "tamagui";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export const unstable_settings = {
   anchor: "(tabs)",
@@ -50,7 +50,9 @@ export default function RootLayout() {
   return (
     <TamaguiProvider config={tamaguiConfig} defaultTheme={colorScheme!}>
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <App />
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <App />
+        </GestureHandlerRootView>
         <StatusBar style="auto" />
         <ToastManager config={toastConfig} />
       </ThemeProvider>

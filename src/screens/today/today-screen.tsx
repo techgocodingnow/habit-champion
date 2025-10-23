@@ -1,3 +1,4 @@
+import { HabitCard } from "@/src/components/habit-card";
 import { Screen } from "@/src/components/ui/screen";
 import { Typography } from "@/src/components/ui/typography";
 import {
@@ -9,6 +10,7 @@ import {
   useCalendar,
   useOptimizedDayMetadata,
 } from "@marceloterreiro/flash-calendar";
+import { FlashList } from "@shopify/flash-list";
 import uniqBy from "lodash-es/uniqBy";
 import { DateTime } from "luxon";
 import { useMemo, useRef } from "react";
@@ -55,7 +57,7 @@ const TodayScreen = () => {
   return (
     <Screen>
       <Screen.Header titleTx="today_header_title" />
-      <Screen.Body>
+      <Stack bg="blue">
         <Calendar.Row.Week>
           {weekDaysList.map((weekDay, i) => (
             <Calendar.Item.WeekName height={32} key={i}>
@@ -75,7 +77,18 @@ const TodayScreen = () => {
           )}
           showsHorizontalScrollIndicator={false}
         />
-      </Screen.Body>
+      </Stack>
+      <Stack flex={1} bg="red">
+        <FlashList
+          data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
+          renderItem={({ item }: { item: any }) => <HabitCard data={item} />}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{
+            paddingBottom: 80,
+            paddingTop: 16,
+          }}
+        />
+      </Stack>
     </Screen>
   );
 };
